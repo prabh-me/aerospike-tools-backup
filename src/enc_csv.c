@@ -275,10 +275,10 @@ csv_put_record(uint64_t *bytes, FILE *fd, bool compact, const as_record *rec, as
 	compact = compact;
 
 	if (*is_first_rec) {
-		fprintf_bytes(bytes, fd, "[");
+		//fprintf_bytes(bytes, fd, "[");
 		*is_first_rec = false;
 	} else {
-		csv_output_raw(bytes, fd, sep);
+		//csv_output_raw(bytes, fd, sep);
 		csv_output_raw(bytes, fd, "\r\n");
 	}
 
