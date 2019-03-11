@@ -245,9 +245,9 @@ open_file(uint64_t *bytes, const char *file_path, const char *ns, uint64_t disk_
 static bool
 close_dir_file(per_node_context *pnc)
 {
-	if (pnc->conf->delimitor) {
-		fprintf(pnc->fd, "]");
-	}
+	//if (pnc->conf->delimitor) {
+	//	fprintf(pnc->fd, "]");
+	//}
 
 	if (!close_file(&pnc->fd, &pnc->fd_buf)) {
 		return false;
