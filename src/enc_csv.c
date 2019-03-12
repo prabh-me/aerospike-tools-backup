@@ -257,6 +257,39 @@ csv_put_bin(uint64_t *bytes, FILE *fd, char *userbinname, const as_record *rec, 
 	return true;
 }
 
+static bool
+csv_put_bin_without_key(uint64_t *bytes, FILE *fd, char *userbinname, const as_record *rec, bool *is_first)
+{
+	bool bin_present_in_data = false;
+	as_bin *bin = NULL;
+	for (int32_t i = 0; i < rec->bins.size; ++i) {
+		bin = &rec->bins.entries[i];
+
+		if (strcmp (userbinname, bin->name) != 0) {
+			continue;
+		} else {
+			bin_present_in_data = true;
+			break;
+		}
+	}
+
+	if (! bin_present_in_data) {
+		csv_output_raw(bytes, fd, "");
+	} else {
+		if (*is_first) {
+			*is_first = false;
+		} else {
+			csv_output_raw(bytes, fd, sep);
+		}
+		if (! csv_output_value(bytes, fd, (as_val *)bin->valuep)) {
+			err("Error while writing record bin %s", bin->name);
+			return false;
+		}
+	}
+	return true;
+}
+
+
 bool
 csv_set_delimitor(char *delimitor)
 {
@@ -283,10 +316,9 @@ csv_put_record(uint64_t *bytes, FILE *fd, bool compact, const as_record *rec, as
 		csv_output_raw(bytes, fd, "\r\n");
 	}
 	fprintf_bytes(bytes, fd, "{\"_id\" :");
-	as_bin *bin = NULL;
-	csv_output_value(bytes, fd, (as_val *)bin->valuep))
+	csv_put_bin_without_key(bytes, fd, "si", rec, 0);
 	
-	fprintf_bytes(bytes, fd, "}");
+	fprintf_bytes(bytes, fd, " }");
 	
 	bool is_first_bin = true;
 	for (uint32_t j = 0; j < bin_list->size; ++j) {
