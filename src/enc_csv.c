@@ -283,7 +283,8 @@ csv_put_record(uint64_t *bytes, FILE *fd, bool compact, const as_record *rec, as
 		csv_output_raw(bytes, fd, "\r\n");
 	}
 	fprintf_bytes(bytes, fd, "{\"_id\" :");
-	csv_output_string(bytes, fd, )
+	as_bin *bin = NULL;
+	csv_output_value(bytes, fd, (as_val *)bin->valuep))
 	
 	fprintf_bytes(bytes, fd, "}");
 	
