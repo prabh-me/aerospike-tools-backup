@@ -320,6 +320,7 @@ csv_put_record(uint64_t *bytes, FILE *fd, bool compact, const as_record *rec, as
 	
 	fprintf_bytes(bytes, fd, " }");
 	
+	fprintf_bytes(bytes, fd, "{");
 	bool is_first_bin = true;
 	for (uint32_t j = 0; j < bin_list->size; ++j) {
 
